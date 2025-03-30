@@ -103,13 +103,12 @@ class MCPServiceImpl implements MCPService {
       }
 
       return mcpResponse;
-    } catch (error) {
+    } catch (error: unknown) {
       // Handle timeout or other fetch errors
-      console.log(typeof error);
-
-      const statusCode = error.name === 'AbortError' ? 504 : 502;
+      const err = error as Error;
+      const statusCode = err.name === 'AbortError' ? 504 : 502;
       const errorMessage =
-        error.name === 'AbortError' ? 'Request timeout' : `Gateway error: ${error.message}`;
+        err.name === 'AbortError' ? 'Request timeout' : `Gateway error: ${err.message}`;
 
       // Log the error if enabled
       if (this.config.logRequests) {

@@ -9,6 +9,7 @@ export const proxyRequest = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    console.log(req.path);
     const requestId = (req.headers['x-request-id'] as string) || uuidv4();
 
     // Extract path from the request

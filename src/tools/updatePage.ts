@@ -14,11 +14,12 @@ const updatePageTool: MCPTool = {
   handler: async ({ pageId, title, content, version }) => {
     try {
       const result = await confluenceService.updatePage(pageId, { title, content, version });
+      
       return {
         content: [
           {
             type: 'text',
-            text: JSON.stringify(result, null, 2),
+            text: `페이지가 성공적으로 업데이트되었습니다!\n\n페이지 ID: ${result.id}\n제목: ${result.title}\n스페이스: ${result.space?.key || '알 수 없음'}\n새 버전: ${result.version.number}\n문서 링크: ${result._links.webui}\n\n${JSON.stringify(result, null, 2)}`,
           },
         ],
       };
@@ -28,7 +29,7 @@ const updatePageTool: MCPTool = {
         content: [
           {
             type: 'text',
-            text: `Error: ${(error as Error).message}`,
+            text: `페이지 업데이트 중 오류가 발생했습니다: ${(error as Error).message}`,
           },
         ],
       };

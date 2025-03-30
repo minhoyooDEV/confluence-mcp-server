@@ -11,11 +11,15 @@ const getPagesInSpaceTool: MCPTool = {
   handler: async ({ spaceKey }) => {
     try {
       const result = await confluenceService.getPagesInSpace(spaceKey);
+
+      // 결과 수 확인
+      const pagesCount = result.results.length;
+
       return {
         content: [
           {
             type: 'text',
-            text: JSON.stringify(result, null, 2),
+            text: `'${spaceKey}' 스페이스에서 총 ${pagesCount}개의 페이지가 조회되었습니다.\n\n${JSON.stringify(result, null, 2)}`,
           },
         ],
       };
@@ -25,7 +29,7 @@ const getPagesInSpaceTool: MCPTool = {
         content: [
           {
             type: 'text',
-            text: `Error: ${(error as Error).message}`,
+            text: `오류가 발생했습니다: ${(error as Error).message}`,
           },
         ],
       };

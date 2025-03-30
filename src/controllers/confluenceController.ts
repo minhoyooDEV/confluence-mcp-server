@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import confluenceService from '../services/confluenceService';
-import { CreatePageParams, UpdatePageParams } from '../types';
+import confluenceService from '../services/confluenceService.js';
+import { CreatePageParams, UpdatePageParams } from '../types/index.js';
 
 export const getSpaces = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

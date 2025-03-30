@@ -7,8 +7,13 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "bun run src/server.ts",
+    "start:proxy": "bun run src/proxy/proxyServer.ts",
     "dev": "bun --watch src/server.ts",
-    "build": "bun build src/server.ts --outdir ./dist --target node",
+    "dev:proxy": "bun --watch src/proxy/proxyServer.ts",
+    "dev:stdio": "bun --watch src/server.ts --stdio",
+    "build": "bun build src/server.ts src/proxy/proxyServer.ts --outdir ./dist --target node",
+    "serve": "node dist/server.js",
+    "serve:proxy": "node dist/proxyServer.js",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -33,6 +38,7 @@
     "express": "^4.18.2",
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2",
     "uuid": "^9.0.1",
     "winston": "^3.11.0",
     "zod": "^3.24.2"

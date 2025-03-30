@@ -11,11 +11,12 @@ const getPageByIdTool: MCPTool = {
   handler: async ({ pageId }) => {
     try {
       const result = await confluenceService.getPageById(pageId);
+
       return {
         content: [
           {
             type: 'text',
-            text: JSON.stringify(result, null, 2),
+            text: `페이지 ID: ${pageId}\n제목: ${result.title}\n스페이스: ${result.space?.key || '알 수 없음'}\n버전: ${result.version.number}\n\n${JSON.stringify(result, null, 2)}`,
           },
         ],
       };
@@ -25,7 +26,7 @@ const getPageByIdTool: MCPTool = {
         content: [
           {
             type: 'text',
-            text: `Error: ${(error as Error).message}`,
+            text: `오류가 발생했습니다: ${(error as Error).message}`,
           },
         ],
       };

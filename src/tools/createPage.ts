@@ -13,11 +13,12 @@ const createPageTool: MCPTool = {
   handler: async ({ title, spaceKey, content }) => {
     try {
       const result = await confluenceService.createPage({ title, spaceKey, content });
+
       return {
         content: [
           {
             type: 'text',
-            text: JSON.stringify(result, null, 2),
+            text: `새 페이지가 성공적으로 생성되었습니다!\n\n페이지 ID: ${result.id}\n제목: ${result.title}\n스페이스: ${result.space?.key}\n버전: ${result.version.number}\n문서 링크: ${result._links.webui}\n\n${JSON.stringify(result, null, 2)}`,
           },
         ],
       };
@@ -27,7 +28,7 @@ const createPageTool: MCPTool = {
         content: [
           {
             type: 'text',
-            text: `Error: ${(error as Error).message}`,
+            text: `페이지 생성 중 오류가 발생했습니다: ${(error as Error).message}`,
           },
         ],
       };
