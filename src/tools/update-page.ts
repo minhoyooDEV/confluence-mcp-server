@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import confluenceService from '../services/confluenceService.js';
-import { MCPTool } from '@/types/mcp.js';
+import { MCPTool } from '../types/mcp.js';
 
 const updatePageTool: MCPTool = {
   name: 'updatePage',
@@ -14,7 +14,7 @@ const updatePageTool: MCPTool = {
   handler: async ({ pageId, title, content, version }) => {
     try {
       const result = await confluenceService.updatePage(pageId, { title, content, version });
-      
+
       return {
         content: [
           {

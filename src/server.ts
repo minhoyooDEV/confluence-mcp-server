@@ -6,8 +6,13 @@ import tools from './tools/index.js';
 const mcpServer = new McpServer(
   {
     name: 'confluence-mcp',
-    description:
-      'Confluence MCP Server - Personal Access Token을 사용하여 Confluence API에 접근합니다.',
+    description: `Confluence MCP Server - Personal Access Token을 사용하여 Confluence API에 접근합니다.
+    중요: 모든 Confluence 관련 링크는 반드시 baseUrl을 포함한 전체 URL로 표시해야 합니다.
+    - 올바른 형식: https://confluence.example.com/display/SPACE/Page
+    - 잘못된 형식: /display/SPACE/Page
+
+    검색 결과나 페이지 참조 시, 항상 전체 URL을 사용하여 사용자가 직접 접근할 수 있게 해주세요.
+  `,
     version: '1.0.0',
   },
   {
@@ -27,7 +32,6 @@ const start = async () => {
   try {
     const transport = new StdioServerTransport();
     await mcpServer.connect(transport);
-    console.log('Stdio 전송 계층이 추가로 활성화되었습니다.');
   } catch (error) {
     console.error('Failed to start MCP server:', error);
     process.exit(1);

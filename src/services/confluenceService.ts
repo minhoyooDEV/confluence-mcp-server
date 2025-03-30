@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import proxyService from './proxyService.js';
+import { SearchParams, buildSearchQueryParams } from '../utils/searchUtils.js';
 import {
-  ConfluenceSpace,
   ConfluencePageContent,
   CreatePageParams,
   UpdatePageParams,
+  ConfluenceSpaceList,
 } from '../types';
 import { HttpException } from '../utils/errorHandler.js';
 
@@ -31,21 +32,67 @@ class ConfluenceService {
     }
   }
 
-  async getSpaces(): Promise<{ results: ConfluenceSpace[] }> {
-    return this.handleRequest<{ results: ConfluenceSpace[] }>(
-      '/rest/api/space',
+  async getSpaces(searchParams?: {
+    limit: number;
+    start: number;
+    type?: string;
+  }): Promise<ConfluenceSpaceList> {
+    const queryString = searchParams ? `?${buildSearchQueryParams(searchParams)}` : '';
+    return this.handleRequest<ConfluenceSpaceList>(
+      `/rest/api/space${queryString}`,
+
       'GET',
       undefined,
       '스페이스 목록 조회 중 오류가 발생했습니다',
     );
   }
 
-  async getPagesInSpace(spaceKey: string): Promise<{ results: ConfluencePageContent[] }> {
+  async getPagesInSpace(
+    spaceKey: string,
+    searchParams?: SearchParams,
+  ): Promise<{ results: ConfluencePageContent[] }> {
+    const queryString = searchParams ? `?${buildSearchQueryParams(searchParams)}` : '';
     return this.handleRequest<{ results: ConfluencePageContent[] }>(
-      `/rest/api/space/${spaceKey}/content`,
+      `/rest/api/space/${spaceKey}/content${queryString}`,
+
       'GET',
       undefined,
       `${spaceKey} 스페이스의 페이지 목록 조회 중 오류가 발생했습니다`,
+    );
+  }
+
+  /**
+   * Confluence API의 내용 검색 기능
+   * @param query 검색 쿼리
+   * @param spaceKey 특정 스페이스 내에서만 검색 (선택 사항)
+   * @param additionalParams 추가 검색 파라미터 (선택 사항)
+   * @returns 검색 결과
+   */
+  async searchContent(
+    query: string,
+    spaceKey?: string,
+    additionalParams: Partial<SearchParams> = {},
+  ): Promise<{ results: ConfluencePageContent[] }> {
+    // 검색 파라미터 구성
+    const searchParams: SearchParams = {
+      query,
+      limit: additionalParams.limit || 10,
+      start: additionalParams.start || 0,
+      ...additionalParams,
+    };
+
+    // 특정 스페이스 내에서만 검색할 경우
+    if (spaceKey) {
+      searchParams.spaceKey = spaceKey;
+    }
+
+    const queryString = buildSearchQueryParams(searchParams);
+
+    return this.handleRequest<{ results: ConfluencePageContent[] }>(
+      `/rest/api/content/search?${queryString}`,
+      'GET',
+      undefined,
+      `콘텐츠 검색 중 오류가 발생했습니다 (검색어: ${query})`,
     );
   }
 

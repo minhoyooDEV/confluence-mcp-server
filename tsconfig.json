@@ -2,23 +2,10 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "lib": ["ESNext"],
-    "outDir": "dist",
-    "strict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
+    "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "noImplicitAny": true,
-    "removeComments": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "types": ["bun-types"],
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
-}
+    "outDir": "dist",
+    "declaration": true,
+    "resolveJsonModule": true

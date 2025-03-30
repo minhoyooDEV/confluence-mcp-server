@@ -83,10 +83,18 @@ app.all('/api/*', async (req, res) => {
 
     // API 경로 추출 (예: /api/rest/api/space → /rest/api/space)
     const apiPath = req.path.replace('/api', '');
-    const targetUrl = `${originalUrl}${apiPath}`;
-    console.log({ originalUrl, apiPath, targetUrl });
 
-    console.log(`프록시 요청: ${req.method} ${targetUrl}`);
+    // 오리지널 URL과 API 경로를 결합
+    const targetUrl = new URL(apiPath, originalUrl);
+
+    // Object.entries 사용
+    Object.entries(req.query).forEach(([key, value]) => {
+      value && targetUrl.searchParams.append(key, value?.toString());
+    });
+
+    const targetUrlString = targetUrl.toString();
+
+    console.log(`프록시 요청: ${req.method} ${targetUrlString}`);
 
     // 헤더 준비 (X-Original-Url은 제외)
     const headers: Record<string, string> = { ...(req.headers as Record<string, string>) };

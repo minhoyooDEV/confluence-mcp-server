@@ -3,9 +3,30 @@ export interface ConfluenceSpace {
   key: string;
   name: string;
   type: string;
+  start: number;
+  limit: number;
+  size: number;
   _links: {
     webui: string;
     self: string;
+  };
+  _expandable: {
+    metadata: string;
+    icon: string;
+    description: string;
+    retentionPolicy: string;
+    homepage: string;
+  };
+}
+export interface ConfluenceSpaceList {
+  results: ConfluenceSpace[];
+  _links: {
+    webui: string;
+    self: string;
+    next: string;
+    prev: string;
+    base: string;
+    context: string;
   };
 }
 
@@ -43,6 +64,14 @@ export interface UpdatePageParams {
   title?: string;
   content: string;
   version?: number;
+}
+
+export interface SearchResult<T> {
+  query: string;
+  results: T[];
+  totalSize: number;
+  start: number;
+  limit: number;
 }
 
 export interface ErrorResponse {
