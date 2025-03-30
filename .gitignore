@@ -1,0 +1,33 @@
+# Dependency directories
+node_modules/
+dist/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Testing and coverage
+coverage
+.nyc_output
+
+# Bun specific
+.bun
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
