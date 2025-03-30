@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from 'zod';
 import confluenceService from '../services/confluenceService.js';
 import { MCPTool } from '../types/mcp.js';
 

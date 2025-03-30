@@ -1,28 +1,80 @@
 {
   "name": "confluence-mcp-server",
   "version": "1.0.0",
-  "description": "MCP Server for Confluence API",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "description": "Confluence MCP Server using Personal Access Token",
+  "type": "module",
+  "module": "src/server.ts",
+  "main": "dist/server.js",
   "scripts": {
-    "build": "bun build ./src/index.ts --outdir ./dist",
-    "start": "bun run ./src/index.ts",
-    "dev": "bun run --watch ./src/index.ts",
+    "start": "bun run src/server.ts",
+    "start:proxy": "bun run src/proxy/proxyServer.ts",
+    "dev": "bun --watch src/server.ts",
+    "dev:proxy": "bun --watch src/proxy/proxyServer.ts",
+    "dev:stdio": "bun --watch src/server.ts --stdio",
+    "build": "bun build src/server.ts src/proxy/proxyServer.ts --outdir ./dist --target node",
+    "serve": "node dist/server.js",
+    "serve:proxy": "node dist/proxyServer.js",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
     "test": "bun test",
-    "typecheck": "tsc --noEmit"
+    "prepare": "husky install"
   },
+  "keywords": [
+    "confluence",
+    "api",
+    "mcp",
+    "server",
+    "atlassian",
+    "typescript",
+    "bun"
+  ],
+  "author": "minho.yoo",
+  "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "latest",
-    "axios": "^1.6.2",
-    "zod": "^3.22.4"
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
-    "typescript": "^5.3.2",
-    "bun-types": "latest"
+    "@types/cors": "^2.8.16",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.9.0",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "bun-types": "latest",
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.0.3"
   },
   "engines": {
-    "node": ">=16"
-  }
+    "node": ">=16.0.0",
+    "bun": ">=1.0.0"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/confluence-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/confluence-mcp-server/issues"
+  },
+  "homepage": "https://github.com/yourusername/confluence-mcp-server#readme"
 }

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from 'zod';
 
 // 이 파일은 이제 타입 참조용으로만 사용됩니다.
 // 실제 스키마는 server.ts에서 tool 등록 시 직접 정의합니다.

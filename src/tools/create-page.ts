@@ -1,5 +1,5 @@
 import { MCPTool } from '../types/mcp.js';
-import { z } from 'zod';
+import z from 'zod';
 import confluenceService from '../services/confluenceService.js';
 
 const createPageTool: MCPTool = {
